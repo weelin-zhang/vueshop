@@ -39,6 +39,7 @@ class GoodsCategoryBrand(models.Model):
     '''
     品牌名
     '''
+    category = models.ForeignKey(GoodsCategory, null=True, blank=True, verbose_name='商品类目')
     name = models.CharField(default='', max_length=30, verbose_name='品牌名', help_text='品牌名')
     desc = models.TextField(default='', max_length=200, verbose_name='品牌描述', help_text='品牌描述')
     image = models.ImageField(max_length=200, upload_to='brand/images/')
@@ -65,7 +66,7 @@ class Goods(models.Model):
     market_price = models.FloatField(default=0, verbose_name='市场价格')
     shop_price = models.FloatField(default=0, verbose_name='本店价格')
     goods_brief = models.TextField(verbose_name='商品简短描述')
-    goods_desc = UEditorField(verbose_name='内容', imagePath='goods/images/', width=1000, height=300)
+    goods_desc = UEditorField(verbose_name='内容', imagePath='goods/images/', width='100%', height=300)
     ship_free = models.BooleanField(default=False)
     # 商品封面图
     goods_front_image = models.ImageField(upload_to="goods/images/", null=True, blank=True, verbose_name="封面图")
@@ -74,6 +75,14 @@ class Goods(models.Model):
     is_hot = models.BooleanField(default=False, verbose_name='是否热销')
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 
+    class Meta:
+        verbose_name = '商品'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+    
+    
 class GoodsImage(models.Model):
     '''
     商品轮播图
