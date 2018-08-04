@@ -2,7 +2,9 @@ import os, sys
 from django.core.wsgi import get_wsgi_application
 
 
-PROJECT_PATH = os.path.dirname(os.path.realpath(__file__)) # 定位到你的django根目录
+#PROJECT_PATH = os.path.dirname(os.path.realpath(__file__)) # 定位到你的django根目录
+PROJECT_PATH ='/opt/zhonghua/vueshop/VueShopApi'
+
 SETTINGS_MODULE = "VueShopApi.settings"
 
 sys.path.append(PROJECT_PATH)
@@ -15,7 +17,7 @@ if __name__ == "__main__":
     from db_tools.data.category_data import row_data
     
     # 导入level1
-    for level1 in row_data[1:]:
+    for level1 in row_data:
         level1_instance = GoodsCategory()
         level1_instance.name = level1['name']
         level1_instance.code = level1['code']
