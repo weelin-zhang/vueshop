@@ -17,9 +17,19 @@ from django.conf.urls import url, include
 import xadmin
 from django.views.static import serve
 from VueShopApi.settings import MEDIA_ROOT
-from goods.views import GoodsListView, GoodsCategoryListView
+from goods.restful_view import GoodsListView, GoodsCategoryListView
+from goods.views import GoodsListViewSet
+from rest_framework.routers import DefaultRouter
 # 自动生成drf文档,依赖coreapi
 from rest_framework.documentation import include_docs_urls
+
+router = DefaultRouter()
+router.register('goods', GoodsListViewSet)
+
+# 有了router不需要了
+# goods_list = GoodsListViewSet.as_view({
+#     'get': 'list',
+# })
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -27,7 +37,8 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
 
     # 商品列表页
-    url(r'goods/$', GoodsListView.as_view()),
+    # url(r'goods/$', goods_list, name='goods-list'),
+    url(r'^api/v1/', include(router.urls), name='goods-list'),
 
     # 商品类别列表页
     url(r'categorys/$', GoodsCategoryListView.as_view()),
@@ -36,7 +47,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls')),
 
     # 文档
-    url(r'docs/', include_docs_urls(title="慕学生鲜"))
+    url(r'^api/docs/', include_docs_urls(title="慕学生鲜"))
 ]
 
 

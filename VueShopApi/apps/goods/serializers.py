@@ -43,10 +43,10 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = GoodsCategory
         # 默认补包含一对多的多的那个model
-        # fields = "__all__"
+        fields = "__all__"
 
         #自定义模式
-        fields = ['name', 'parent_category', 'id', 'is_tab', 'category_type', 'desc', 'code', 'add_time', 'goods_set']
+        # fields = ['name', 'parent_category', 'id', 'is_tab', 'category_type', 'desc', 'code', 'add_time', 'goods_set']
 
 
 # 商品序列化

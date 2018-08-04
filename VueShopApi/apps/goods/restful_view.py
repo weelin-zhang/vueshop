@@ -1,4 +1,6 @@
-from .models import Goods, GoodsCategory
+'''
+记录各种类的使用方法
+'''
 from .serializers import GoodsSerializer, CategorySerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -6,6 +8,8 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
+
+from .models import Goods, GoodsCategory
 
 
 # 深度定制分页, 可以达到前端动态设置效果
@@ -16,16 +20,14 @@ class GoodsPagination(PageNumberPagination):
     # 默认page(?page=2)
     page_query_param = 'p'
     max_page_size = 100
-    
+
+
 ### 使用viewSet
 
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
-    # pagination_class = GoodsPagination
-    
-
-
+    pagination_class = GoodsPagination
 
 
 # # 深度定制分页, 可以达到前端动态设置效果
@@ -45,7 +47,7 @@ class GoodsListView(generics.ListAPIView):
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
-    
+
 
 # 在APIView基础上封装
 # class GoodsListView(mixins.ListModelMixin, generics.GenericAPIView):
@@ -75,6 +77,7 @@ class GoodsCategoryListView(APIView):
     """
     List all goodscatetory
     """
+    
     def get(self, request, format=None):
         goodscategory = GoodsCategory.objects.all()
         serializer = CategorySerializer(goodscategory, many=True)
