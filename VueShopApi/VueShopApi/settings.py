@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.user_operation.apps.UserOperationConfig',
     'crispy_forms',
     'xadmin',
+    'rest_framework',
     
 ]
 

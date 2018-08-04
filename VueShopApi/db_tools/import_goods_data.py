@@ -1,8 +1,8 @@
 import os, sys
 from django.core.wsgi import get_wsgi_application
 
-# PROJECT_PATH = os.path.dirname(os.path.realpath(__file__))  # 定位到你的django根目录
-PROJECT_PATH ='/opt/zhonghua/vueshop/VueShopApi'
+PROJECT_PATH = os.path.dirname(os.path.realpath(__file__))  # 定位到你的django根目录
+# PROJECT_PATH ='/opt/zhonghua/vueshop/VueShopApi'
 SETTINGS_MODULE = "VueShopApi.settings"
 
 sys.path.append(PROJECT_PATH)
