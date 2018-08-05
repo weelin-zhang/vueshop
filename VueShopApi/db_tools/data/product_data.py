@@ -635,7 +635,7 @@ row_data = [
     },
     {
         'images': [
-            'images/201511/goods_img/49_P_1448162819889.jpg'
+            'images/goods/49_P_1448162819889.jpg'
         ],
         'categorys': [
             '首页',

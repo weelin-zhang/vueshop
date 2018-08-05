@@ -1,5 +1,5 @@
-from .models import Goods, GoodsCategory
-from .serializers import GoodsSerializer, CategorySerializer
+from .models import Goods, GoodsCategory, Banner
+from .serializers import GoodsSerializer, CategorySerializer, BannerSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import mixins
@@ -19,7 +19,7 @@ from rest_framework.filters import OrderingFilter
 
 # 深度定制分页, 可以达到前端动态设置效果
 class GoodsPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 20
     # page_size 提供动态设置分页的功能
     page_size_query_param = 'page_size'
     # 默认page(?page=2)
@@ -98,3 +98,12 @@ class CategroyListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, view
     #     data = {"msg": "success", "code": "0", "data": serializer.data}
     #     return Response(data)
 
+# 需要轮播的商品
+class BannerListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    '''
+    list:
+        需要轮播的商品
+    '''
+    serializer_class = BannerSerializer
+    queryset = Banner.objects
+    

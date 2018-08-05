@@ -71,7 +71,7 @@ class Goods(models.Model):
     # 商品封面图
     goods_front_image = models.ImageField(upload_to="goods/images/", null=True, blank=True, verbose_name="封面图")
     # 商品是否新品
-    is_new = models.BooleanField(default=False, verbose_name='是否热销')
+    is_new = models.BooleanField(default=False, verbose_name='是否新品')
     is_hot = models.BooleanField(default=False, verbose_name='是否热销')
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 

@@ -19,7 +19,7 @@ import xadmin
 from django.views.static import serve
 from VueShopApi.settings import MEDIA_ROOT
 from goods.restful_view import GoodsListView, GoodsCategoryListView
-from goods.views import GoodsListViewSet, CategroyListViewSet
+from goods.views import GoodsListViewSet, CategroyListViewSet, BannerListViewSet
 from rest_framework.routers import DefaultRouter
 # 自动生成drf文档,依赖coreapi
 from rest_framework.documentation import include_docs_urls
@@ -27,6 +27,7 @@ from rest_framework.documentation import include_docs_urls
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet)
 router.register('categorys', CategroyListViewSet)
+router.register('banners', BannerListViewSet)
 
 # 有了router不需要了
 # goods_list = GoodsListViewSet.as_view({
@@ -40,7 +41,8 @@ urlpatterns = [
     url(r'^index/', TemplateView.as_view(template_name="index.html"), name="index"),
     
     # viewset 大法
-    url(r'^api/v1/', include(router.urls), name='goods-list'),
+    # url(r'^api/v1/', include(router.urls)),
+    url(r'^', include(router.urls)),
 
     # 商品列表页
     # url(r'goods/$', goods_list, name='goods-list'),

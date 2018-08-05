@@ -51,11 +51,16 @@ INSTALLED_APPS = [
     'crispy_forms',
     'xadmin',
     'rest_framework',
+    # drf过滤用
     'django_filters',
-    
+    # 完成跨域-1
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
+    # 完成跨域-2
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,6 +69,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+# 完成跨域-2
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'VueShopApi.urls'
 
