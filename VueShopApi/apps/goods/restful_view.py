@@ -44,10 +44,12 @@ class GoodsListView(generics.ListAPIView):
     '''
     商品列表页
     '''
-    queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
 
+
+    def get_queryset(self):
+        return Goods.objects.all()
 
 # 在APIView基础上封装
 # class GoodsListView(mixins.ListModelMixin, generics.GenericAPIView):

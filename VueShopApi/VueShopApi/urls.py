@@ -41,7 +41,9 @@ urlpatterns = [
     url(r'^api/v1/', include(router.urls), name='goods-list'),
 
     # 商品类别列表页
-    url(r'categorys/$', GoodsCategoryListView.as_view()),
+    url(r'^categorys/$', GoodsCategoryListView.as_view()),
+    
+    url(r'^goods/$', GoodsListView.as_view()),
 
     #
     url(r'^api-auth/', include('rest_framework.urls')),

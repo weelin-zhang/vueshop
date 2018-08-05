@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'xadmin',
     'rest_framework',
+    'django_filters',
     
 ]
 
@@ -150,6 +151,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 REST_FRAMEWORK = {
     # 全局分页
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    # 'PAGE_SIZE': 40
+    # 'PAGE_SIZE': 40,
+    
+    # You can also set the filter backends on a per-view, or per-viewset basis, using the GenericAPIView class-based views.
+    # 'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 
 }
