@@ -6,15 +6,27 @@ from .models import Goods, GoodsCategory
 #     name = serializers.CharField(required=True, max_length=100)
 #     click_num = serializers.IntegerField(default=0)
 #     goods_front_image = serializers.ImageField()
+#
+#
+#     def create(self, validated_data):
+#         """
+#         Create and return a new `Goods` instance, given the validated data.
+#         """
+#         print(validated_data)
+#         return Goods.objects.create(**validated_data)
 
-
-    # def create(self, validated_data):
-    #     """
-    #     Create and return a new `Goods` instance, given the validated data.
-    #     """
-    #     print(validated_data)
-    #     return Goods.objects.create(**validated_data)
-
+class CategorySerializer3(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsCategory
+        fields = '__all__'
+        
+        
+class CategorySerializer2(serializers.ModelSerializer):
+    sub_cat = CategorySerializer3(many=True)
+    class Meta:
+        model = GoodsCategory
+        fields = '__all__'
+    
 
 # 商品类别序列化
 class CategorySerializer(serializers.ModelSerializer):
@@ -40,9 +52,12 @@ class CategorySerializer(serializers.ModelSerializer):
         eg:
             goods_set = GoodsSerializer(many=True)
     '''
+    # 拿到子类
+    # sub_cat 必须和外键的related_name一致
+    sub_cat = CategorySerializer2(many=True)
     class Meta:
         model = GoodsCategory
-        # 默认补包含一对多的多的那个model
+        # fields = ['name', 'parent_category', 'id', 'is_tab', 'category_type', 'desc', 'code', 'add_time', 'goods_set']
         fields = "__all__"
 
         #自定义模式

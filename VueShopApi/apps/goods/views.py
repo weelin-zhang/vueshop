@@ -70,5 +70,31 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     #     price_min = self.request.query_params.get('price_min', 0)
     #
     #     return Goods.objects.filter(shop_price__gt=int(price_min))
-        
     
+
+class CategroyListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    '''
+    list:
+        商品分类列表数据
+    read:
+        商品分类详情
+    '''
+    queryset = GoodsCategory.objects.filter(category_type=1)
+    serializer_class = CategorySerializer
+    
+    
+    # 根据api规范重写
+    # def get_object(self):
+    #     if not self.queryset or not self.queryset.filter(**self.kwargs):
+    #         return
+    #     return super().get_object()
+    #
+    # # 定制一下返回结果
+    # def retrieve(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     if not instance:
+    #         return Response({"msg": 'no exists', "code": "1"})
+    #     serializer = self.get_serializer(instance)
+    #     data = {"msg": "success", "code": "0", "data": serializer.data}
+    #     return Response(data)
+

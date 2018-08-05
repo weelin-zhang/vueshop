@@ -20,4 +20,4 @@ class GoodsFilter(filters.FilterSet):
     class Meta:
         model = Goods
         # 列表中字段默认是精确匹配
-        fields = ['min_price', 'max_price', 'goodsname']
+        fields = ['min_price', 'max_price', 'goodsname', 'category']
