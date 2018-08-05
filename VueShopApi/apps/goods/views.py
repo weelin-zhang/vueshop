@@ -6,11 +6,20 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
+# 过滤用
+from django_filters import rest_framework as filters
+from .filters import GoodsFilter
+# search 用
+from rest_framework.filters import SearchFilter
+# 排序用
+from rest_framework.filters import OrderingFilter
 
+# from rest_framework.authentication import  SessionAuthentication
+# from rest_framework.permissions import IsAuthenticated
 
 # 深度定制分页, 可以达到前端动态设置效果
 class GoodsPagination(PageNumberPagination):
-    page_size = 20
+    page_size = 10
     # page_size 提供动态设置分页的功能
     page_size_query_param = 'page_size'
     # 默认page(?page=2)
@@ -20,62 +29,46 @@ class GoodsPagination(PageNumberPagination):
 ### 使用viewSet
 
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    queryset = Goods.objects.all()
-    serializer_class = GoodsSerializer
-    # pagination_class = GoodsPagination
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated,)
     
-
-
-
-
-# # 深度定制分页, 可以达到前端动态设置效果
-# class GoodsPagination(PageNumberPagination):
-#     page_size = 10
-#     # page_size 提供动态设置分页的功能
-#     page_size_query_param = 'page_size'
-#     # 默认page(?page=2)
-#     page_query_param = 'p'
-#     max_page_size = 100
-
-# 进一步封装成最简形式
-class GoodsListView(generics.ListAPIView):
     '''
-    商品列表页
+    分页 搜索 过滤 排序
+    http://localhost:8000/api/v1/goods/?ordering=-shop_price&search=%E7%89%9B%E8%82%89&min_price=200
     '''
-    queryset = Goods.objects.all()
+    # 当没有重写get_queryset时,一定要定义queryset属性
+    queryset = Goods.objects
     serializer_class = GoodsSerializer
+    
+    # 分页
     pagination_class = GoodsPagination
     
-
-# 在APIView基础上封装
-# class GoodsListView(mixins.ListModelMixin, generics.GenericAPIView):
-#     '''
-#     商品列表页
-#     '''
-#     queryset = Goods.objects.all()[:10]
-#     serializer_class = GoodsSerializer
-#
-#     def get(self, request, *args, **kwargs):
-#         return self.list(request, *args, **kwargs)
-
-
-# APIView实现
-# class GoodsListView(APIView):
-#     """
-#     List all goods
-#     """
-#     def get(self, request, format=None):
-#         goods = Goods.objects.all()[:10]
-#         serializer = GoodsSerializer(goods, many=True)
-#         return Response(serializer.data)
-
-
-
-class GoodsCategoryListView(APIView):
-    """
-    List all goodscatetory
-    """
-    def get(self, request, format=None):
-        goodscategory = GoodsCategory.objects.all()
-        serializer = CategorySerializer(goodscategory, many=True)
-        return Response(serializer.data)
+    # 这种过滤方式太过单一，无法指定范围
+    # filter_backends = (filters.DjangoFilterBackend,)
+    # filter_fields = ['name','shop_price']
+    
+    # 自定义filterSet
+    filter_backends = (filters.DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_class = GoodsFilter
+    
+    # search
+    # search框的输入会在所有的search_fields字段中查找,理解为并集
+    # field可以使该model字段,也可以是related, manytomany字段
+    # search_fields = ('=username', '$email', '^goods_desc') 分别表示精确匹配,正则, 以..开头
+    search_fields = ['name', 'goods_desc', 'goods_brief', 'category__name']
+    
+    # 排序, 不指定search_fields的话,会允许所有字段的排序
+    ordering_fields = ['shop_price',]
+    # query_params不指定ordering时的默认排序方式
+    ordering=('shop_price',)
+    
+    # 排序
+    
+    # 使用get_queryset和request.query_params实现动态过滤功能
+    # def get_queryset(self):
+    #     # 最低价格
+    #     price_min = self.request.query_params.get('price_min', 0)
+    #
+    #     return Goods.objects.filter(shop_price__gt=int(price_min))
+        
+    
