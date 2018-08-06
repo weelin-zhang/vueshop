@@ -19,11 +19,11 @@ from rest_framework.filters import OrderingFilter
 
 # 深度定制分页, 可以达到前端动态设置效果
 class GoodsPagination(PageNumberPagination):
-    page_size = 20
+    page_size = 12
     # page_size 提供动态设置分页的功能
     page_size_query_param = 'page_size'
     # 默认page(?page=2)
-    page_query_param = 'p'
+    page_query_param = 'page'
     max_page_size = 100
     
 ### 使用viewSet
@@ -58,9 +58,9 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     search_fields = ['name', 'goods_desc', 'goods_brief', 'category__name']
     
     # 排序, 不指定search_fields的话,会允许所有字段的排序
-    ordering_fields = ['shop_price',]
+    ordering_fields = ['shop_price','sold_num']
     # query_params不指定ordering时的默认排序方式
-    ordering=('shop_price',)
+    ordering=('-add_time',)
     
     # 排序
     
