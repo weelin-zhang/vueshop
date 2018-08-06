@@ -28,7 +28,7 @@ class GoodsPagination(PageNumberPagination):
     
 ### 使用viewSet
 
-class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     # authentication_classes = (SessionAuthentication,)
     # permission_classes = (IsAuthenticated,)
     

@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Goods, GoodsCategory
 from .models import Banner
+from .models import GoodsImage
+
 
 
 # class GoodsSerializer(serializers.Serializer):
@@ -65,6 +67,13 @@ class CategorySerializer(serializers.ModelSerializer):
         # fields = ['name', 'parent_category', 'id', 'is_tab', 'category_type', 'desc', 'code', 'add_time', 'goods_set']
 
 
+class GoodsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsImage
+        fields = '__all__'
+
+
+
 # 商品序列化
 class GoodsSerializer(serializers.ModelSerializer):
     # category时外键
@@ -73,6 +82,8 @@ class GoodsSerializer(serializers.ModelSerializer):
 
     # 打印出category序列化后的dict
     category = CategorySerializer()
+    # 轮播图片
+    images = GoodsImageSerializer(many=True)
     class Meta:
         model = Goods
         fields = "__all__"

@@ -103,6 +103,7 @@ DATABASES = {
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mxshop',
+        'HOST': 'localhost',
         'USER': 'root',
         'PASSWORD': 'AbCd$1234',
         'PORT': 3306,
