@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'django_filters',
     # 完成跨域-1
     'corsheaders',
+    # Token认证
+    'rest_framework.authtoken',
+
 
 ]
 
@@ -164,6 +167,20 @@ REST_FRAMEWORK = {
     
     # You can also set the filter backends on a per-view, or per-viewset basis, using the GenericAPIView class-based views.
     # 'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+
+    # 认证级别
+    'DEFAULT_PERMISSION_CLASSES': (
+                'rest_framework.permissions.IsAuthenticated',
+            
+    ),
+    # 认证
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+
+    )
 
 }
 

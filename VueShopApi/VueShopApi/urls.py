@@ -24,6 +24,13 @@ from rest_framework.routers import DefaultRouter
 # 自动生成drf文档,依赖coreapi
 from rest_framework.documentation import include_docs_urls
 
+# drf Token
+from rest_framework.authtoken import views
+
+# jwt Token
+from rest_framework_jwt.views import obtain_jwt_token
+
+
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet)
 router.register('categorys', CategroyListViewSet)
@@ -52,8 +59,15 @@ urlpatterns = [
     
     # url(r'^goods/$', GoodsListView.as_view()),
 
-    #
+    # 开启api认证功能
     url(r'^api-auth/', include('rest_framework.urls')),
+
+    # drf自带的Token认证模式
+    url(r'^api-token-auth/', views.obtain_auth_token),
+
+    # jwt认证接口
+    url(r'^jwt_auth/', obtain_jwt_token),
+
 
     # 文档
     url(r'^api/docs/', include_docs_urls(title="慕学生鲜"))

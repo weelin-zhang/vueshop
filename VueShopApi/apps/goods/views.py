@@ -14,8 +14,8 @@ from rest_framework.filters import SearchFilter
 # 排序用
 from rest_framework.filters import OrderingFilter
 
-# from rest_framework.authentication import  SessionAuthentication
-# from rest_framework.permissions import IsAuthenticated
+#from rest_framework.authentication import  SessionAuthentication
+#from rest_framework.permissions import IsAuthenticated
 
 # 深度定制分页, 可以达到前端动态设置效果
 class GoodsPagination(PageNumberPagination):
@@ -29,8 +29,8 @@ class GoodsPagination(PageNumberPagination):
 ### 使用viewSet
 
 class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    #authentication_classes = (SessionAuthentication,)
+    #permission_classes = (IsAuthenticated,)
     
     '''
     分页 搜索 过滤 排序
