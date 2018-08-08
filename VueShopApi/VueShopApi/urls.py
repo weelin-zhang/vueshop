@@ -30,11 +30,14 @@ from rest_framework.authtoken import views
 # jwt Token
 from rest_framework_jwt.views import obtain_jwt_token
 
+#验证码
+from users.views import SmsCodeViewSet
 
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet)
 router.register('categorys', CategroyListViewSet)
 router.register('banners', BannerListViewSet)
+router.register('codes', SmsCodeViewSet)
 
 # 有了router不需要了
 # goods_list = GoodsListViewSet.as_view({
