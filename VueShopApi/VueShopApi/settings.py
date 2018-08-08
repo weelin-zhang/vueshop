@@ -96,7 +96,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'VueShopApi.wsgi.application'
 
-
+# 自定义后端认证
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -108,7 +111,7 @@ DATABASES = {
         'NAME': 'mxshop',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': 'AbCd$1234',
+        'PASSWORD': 'weelin',
         'PORT': 3306,
         'OPTIONS': {'init_command': 'SET default_storage_engine=INNODB;'}
     }
@@ -170,7 +173,7 @@ REST_FRAMEWORK = {
 
     # 认证级别
     'DEFAULT_PERMISSION_CLASSES': (
-                'rest_framework.permissions.IsAuthenticated',
+                # 'rest_framework.permissions.IsAuthenticated',
             
     ),
     # 认证
@@ -188,3 +191,10 @@ REST_FRAMEWORK = {
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+# JWT相关设置
+import datetime
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT'
+}
