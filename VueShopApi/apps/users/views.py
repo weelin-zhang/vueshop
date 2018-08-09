@@ -17,6 +17,7 @@ from utils.yunpian import YunPian
 
 
 User = get_user_model()
+from .serializers import UserRegsSerializer
 
 # Create your views here.
 class CustomBackend(ModelBackend):
@@ -71,8 +72,14 @@ class SmsCodeViewSet(CreateModelMixin, GenericViewSet):
         if sms_status['code'] != 0:
             return  Response({"mobile": sms_status['msg']}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            # 保存
+            # 保存验证码, 因为serializers.Serializer不会自动保存
             verify_code = VerifyCode(mobile=mobile, code=sms_code)
             verify_code.save()
             return Response({"mobile": mobile}, status=status.HTTP_201_CREATED)
         
+
+
+class UserRegViewSet(CreateModelMixin, GenericViewSet):
+    
+    serializer_class = UserRegsSerializer
+    queryset = User.objects

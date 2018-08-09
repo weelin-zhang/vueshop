@@ -31,13 +31,19 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 
 #验证码
-from users.views import SmsCodeViewSet
+from users.views import SmsCodeViewSet, UserRegViewSet
+
+from users.views import UserRegsSerializer
+
+# 注册
+from users.serializers import UserRegsSerializer
 
 router = DefaultRouter()
-router.register('goods', GoodsListViewSet)
-router.register('categorys', CategroyListViewSet)
-router.register('banners', BannerListViewSet)
-router.register('codes', SmsCodeViewSet)
+router.register('goods', GoodsListViewSet, base_name='goods')
+router.register('categorys', CategroyListViewSet, base_name='categorys')
+router.register('banners', BannerListViewSet, base_name='banners')
+router.register('codes', SmsCodeViewSet, base_name='codes')
+router.register('users', UserRegViewSet, base_name='users')
 
 # 有了router不需要了
 # goods_list = GoodsListViewSet.as_view({
