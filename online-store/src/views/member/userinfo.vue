@@ -88,6 +88,7 @@ import {getUserDetail, updateUserInfo} from '../../api/api'
             getUserInfo () { //请求用户信息
               getUserDetail().then((response)=> {
                     this.userInfo = response.data;
+                    console.log(this.userInfo);
                 }).catch(function (error) {
                     console.log(error);
                 });
