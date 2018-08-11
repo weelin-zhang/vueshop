@@ -12,6 +12,10 @@ from rest_framework.response import Response
 from .serializers import SmsSerializer
 from django.conf import settings
 
+# 注册创建用户的同时,返回token
+from rest_framework_jwt.utils import  jwt_payload_handler
+from rest_framework_jwt.utils import  jwt_encode_handler
+
 # 发短信代码
 from utils.yunpian import YunPian
 
@@ -83,3 +87,25 @@ class UserRegViewSet(CreateModelMixin, GenericViewSet):
     
     serializer_class = UserRegsSerializer
     queryset = User.objects
+
+
+    # 默认返回不包含token,为了注册成功返回token,需要重写create,局部修正
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        u = self.perform_create(serializer)
+
+        # 在此处加入token内容, 定制返回结果
+        ret = serializer.data
+        payload = jwt_payload_handler(u)
+        token = jwt_encode_handler(payload)
+
+        ret['token'] = token
+
+        ret['name'] = u.name if u.name else u.username
+        headers = self.get_success_headers(serializer.data)
+        return Response(ret, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        return  serializer.save()
+
