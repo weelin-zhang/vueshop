@@ -31,8 +31,8 @@ class GoodsPagination(PageNumberPagination):
 
 class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     # authentication_classes = (SessionAuthentication,)
-    authentication_classes = (JSONWebTokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (JSONWebTokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
     
     '''
     分页 搜索 过滤 排序

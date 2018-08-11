@@ -30,13 +30,12 @@ from rest_framework.authtoken import views
 # jwt Token
 from rest_framework_jwt.views import obtain_jwt_token
 
-#验证码
+#验证码,注册
 from users.views import SmsCodeViewSet, UserRegViewSet
 
-from users.views import UserRegsSerializer
 
-# 注册
-from users.serializers import UserRegsSerializer
+# 收藏
+from user_operation.views import UserFavViewSet
 
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
@@ -44,6 +43,7 @@ router.register('categorys', CategroyListViewSet, base_name='categorys')
 router.register('banners', BannerListViewSet, base_name='banners')
 router.register('codes', SmsCodeViewSet, base_name='codes')
 router.register('users', UserRegViewSet, base_name='users')
+router.register('userfavs', UserFavViewSet, base_name='userfavs')
 
 # 有了router不需要了
 # goods_list = GoodsListViewSet.as_view({
