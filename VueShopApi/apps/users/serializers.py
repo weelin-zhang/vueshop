@@ -27,7 +27,11 @@ class SmsSerializer(serializers.Serializer):
         if VerifyCode.objects.filter(add_time__gt=one_minute_ago, mobile=mobile):
             raise serializers.ValidationError('距离上次发送未满60s')
             
-            
+           
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("name", "username", "birthday", "gender", "mobile", "email")
 
 class UserRegsSerializer(serializers.ModelSerializer):
     # code这个字段用户字段没有，但是要用它来决定是否可以注册,所以要定义出来
@@ -39,7 +43,7 @@ class UserRegsSerializer(serializers.ModelSerializer):
         "blank": "不能为空"
     }, label="验证码")
     
-    password = serializers.CharField(style={"input_type": "password"}, label="密码")
+    password = serializers.CharField(write_only=True, style={"input_type": "password"}, label="密码")
     # 验证是否唯一
     username = serializers.CharField(validators=[UniqueValidator(queryset=User.objects.all(), message="用户已经存在"),],
                                      label="用户名")
