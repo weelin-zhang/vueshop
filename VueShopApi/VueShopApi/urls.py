@@ -37,6 +37,12 @@ from users.views import SmsCodeViewSet, UserRegViewSet
 # 收藏
 from user_operation.views import UserFavViewSet
 
+# 地址
+from user_operation.views import AddressViewSet
+
+# 留言
+from user_operation.views import LeaveMessageViewSet
+
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
 router.register('categorys', CategroyListViewSet, base_name='categorys')
@@ -44,6 +50,8 @@ router.register('banners', BannerListViewSet, base_name='banners')
 router.register('codes', SmsCodeViewSet, base_name='codes')
 router.register('users', UserRegViewSet, base_name='users')
 router.register('userfavs', UserFavViewSet, base_name='userfavs')
+router.register("address", AddressViewSet, base_name="address")
+router.register("messages", LeaveMessageViewSet, base_name="messages")
 
 # 有了router不需要了
 # goods_list = GoodsListViewSet.as_view({
@@ -77,7 +85,6 @@ urlpatterns = [
     # jwt认证接口
     url(r'^login/', obtain_jwt_token),
     # url(r'^jwt_auth/', obtain_jwt_token),
-
 
     # 文档
     url(r'^api/docs/', include_docs_urls(title="慕学生鲜"))
