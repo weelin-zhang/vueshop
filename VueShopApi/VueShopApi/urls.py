@@ -43,6 +43,9 @@ from user_operation.views import AddressViewSet
 # 留言
 from user_operation.views import LeaveMessageViewSet
 
+# 交易
+from trade.views import ShopingCartViewSet
+
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
 router.register('categorys', CategroyListViewSet, base_name='categorys')
@@ -52,6 +55,7 @@ router.register('users', UserRegViewSet, base_name='users')
 router.register('userfavs', UserFavViewSet, base_name='userfavs')
 router.register("address", AddressViewSet, base_name="address")
 router.register("messages", LeaveMessageViewSet, base_name="messages")
+router.register("shopcarts", ShopingCartViewSet, base_name="shopcarts")
 
 # 有了router不需要了
 # goods_list = GoodsListViewSet.as_view({
