@@ -109,7 +109,6 @@
     created () {
       // 请求购物车商品
       getShopCarts().then((response)=> {
-        console.log(response.data)
         // 更新store数据
         //this.goods_list = response.data;
         var totalPrice = 0
@@ -163,6 +162,10 @@
 
           // 更新store数据
           this.$store.dispatch('setShopList');
+          //更新总价
+          this.setTotalPrice();
+
+          }).catch(function (error) {
 
         }).catch(function (error) {
           console.log(error);

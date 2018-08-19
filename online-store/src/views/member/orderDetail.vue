@@ -38,7 +38,7 @@
                             </tr>
                             <tr v-for="item in orderInfo.goods">
                                 <td bgcolor="#ffffff">
-                                    <router-link  :to="'/app/home/productDetail/'+item.id" class="f6">{{item.goods.name}}</router-link>
+                                    <router-link  :to="'/app/home/productDetail/'+item.goods.id" class="f6">{{item.goods.name}}</router-link>
                                     <!-- <a href="" target="_blank" class="f6">{{item.name}}</a> -->
                                 </td>
                                 <td align="center" bgcolor="#ffffff">￥{{item.goods.shop_price}}元</td>

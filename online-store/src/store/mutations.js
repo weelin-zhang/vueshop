@@ -15,14 +15,14 @@ export default {
             token:cookie.getCookie('token')
         }
         console.log(state.userInfo);
-    },
+    },      
     [types.SET_SHOPLIST] (state) { //设置购物车数据
         // token = cookie.getCookie('token')
         if(cookie.getCookie('token') != null){
           getShopCarts().then((response)=> {
             // 更新store数据
+            state.goods_list.goods_list = [];
             state.goods_list.goods_list = response.data;
-            console.log(response.data)
             var totalPrice = 0
             response.data.forEach(function(entry) {
               totalPrice += entry.goods.shop_price*entry.nums

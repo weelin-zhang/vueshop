@@ -125,7 +125,8 @@
                             </div>
                             <div class="count">共<span class="red" id="hd_cart_count">{{goods_list.length}}</span>件商品哦~
                                   <p>总价:<span class="red"><em id="hd_cart_total">{{goods_list.totalPrice}}</em></span>
-                                  <router-link class="btn" :to="'/app/shoppingcart/cart'" target = _blank>去结算
+                                  <!-- <router-link class="btn" :to="'/app/shoppingcart/cart'" target = _blank>去结算 -->
+                                  <router-link class="btn" :to="'/app/shoppingcart/cart'">去结算
                                   </router-link>
                                   </p>
                             </div>
