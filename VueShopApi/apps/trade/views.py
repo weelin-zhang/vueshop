@@ -6,7 +6,6 @@ from utils.permissions import IsOwnerOrReadOnly
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import ShopCartSerializer, ShopCartDetailSerializer, OrdersSerializer
 from .models import ShoppingCart, OrderInfo, OrderGoods
-
 class ShopingCartViewSet(viewsets.ModelViewSet):
     '''
     list:
@@ -36,8 +35,29 @@ class ShopingCartViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         return ShoppingCart.objects.filter(user=self.request.user)
-
-
+    
+    def perform_create(self, serializer):
+        shop_chart = serializer.save()
+        goods = shop_chart.goods
+        goods.goods_num -= shop_chart.nums
+        goods.save()
+        
+    def perform_update(self, serializer):
+        existed_record = ShoppingCart.objects.get(id=serializer.id)
+        existed_nums = existed_record.nums
+        saved_record = serializer.save()
+        nums = saved_record.nums - existed_nums
+        goods = serializer.goods
+        goods.goods_num += nums
+        goods.save()
+        
+        
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.goods_num += instance.nums
+        goods.save()
+        instance.delete()
+        
 class OrdersViewSet(mixins.CreateModelMixin,
                     mixins.ListModelMixin,
                     mixins.DestroyModelMixin,

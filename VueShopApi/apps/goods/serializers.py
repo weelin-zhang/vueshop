@@ -2,8 +2,10 @@ from rest_framework import serializers
 from .models import Goods, GoodsCategory
 from .models import Banner
 from .models import GoodsImage
-
-
+from .models import HotSearchWords
+from .models import GoodsCategoryBrand
+from .models import IndexAd
+from django.db.models import Q
 
 # class GoodsSerializer(serializers.Serializer):
 #     name = serializers.CharField(required=True, max_length=100)
@@ -95,3 +97,53 @@ class BannerSerializer(serializers.ModelSerializer):
         model = Banner
         fields = '__all__'
 
+
+# hot search
+
+class HotSearchWordsSerializer(serializers.ModelSerializer):
+    add_time = serializers.DateTimeField(read_only=True)
+    class Meta:
+        model = HotSearchWords
+        fields = '__all__'
+        
+
+class GoodsCategoryBrandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsCategoryBrand
+        fields = '__all__'
+    
+
+
+
+class AdGoodsSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = IndexAd
+    
+    
+# indexCategory
+class IndexCategorySerializer(serializers.ModelSerializer):
+    brands = GoodsCategoryBrandSerializer(many=True)
+    goods = serializers.SerializerMethodField()
+    sub_cat = CategorySerializer2(many=True)
+    ad_goods = serializers.SerializerMethodField()
+    
+    def get_goods(self, obj):
+        all_goods = Goods.objects.filter(Q(category_id=obj.id)|Q(category__parent_category_id=obj.id)|Q(category__parent_category__parent_category_id=obj.id))
+        goods_serializer = GoodsSerializer(all_goods, many=True, context={'request': self.context['request']})
+        return goods_serializer.data
+    
+    def get_ad_goods(self, obj):
+        goods_json = {}
+        ad_goods = IndexAd.objects.filter(category_id=obj.id)
+
+        if ad_goods:
+            good_ins = ad_goods[0].goods
+            goods_json = GoodsSerializer(good_ins, many=False, context={'request': self.context['request']}).data
+        return goods_json
+    
+
+    class Meta:
+        model = GoodsCategory
+        fields = '__all__'
+    

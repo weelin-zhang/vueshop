@@ -4,6 +4,8 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListMode
 from rest_framework.authentication import SessionAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 from .serializers import UserFavSerializer
 from .serializers import UserFavDetailSerializer
 from .models import UserFav
@@ -11,6 +13,7 @@ from .permissions import IsOwnerOrReadOnly
 from rest_framework.viewsets import ModelViewSet
 from .serializers import AddressSerialzer, LeaveMessageSerializer
 from .models import UserAddress, UserLeavingMessage
+from goods.models import Goods
 
 # Create your views here.
 
@@ -46,6 +49,19 @@ class UserFavViewSet(CreateModelMixin, RetrieveModelMixin, ListModelMixin, Destr
             return UserFavDetailSerializer
         return UserFavSerializer
 
+    # 点赞数+1
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        goods = instance.goods
+        goods.fav_num += 1
+        goods.save()
+        
+    # 点赞-1
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.fav_num -= 1
+        goods.save()
+        instance.delete()
 
 class AddressViewSet(ModelViewSet):
     '''

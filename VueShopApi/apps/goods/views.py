@@ -1,9 +1,9 @@
-from .models import Goods, GoodsCategory, Banner
-from .serializers import GoodsSerializer, CategorySerializer, BannerSerializer
+from .models import Goods, GoodsCategory, Banner, HotSearchWords
+from .serializers import GoodsSerializer, CategorySerializer, BannerSerializer, HotSearchWordsSerializer
+from .serializers import IndexCategorySerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import mixins
-from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 # 过滤用
@@ -18,6 +18,8 @@ from rest_framework.filters import OrderingFilter
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
+
 # 深度定制分页, 可以达到前端动态设置效果
 class GoodsPagination(PageNumberPagination):
     page_size = 12
@@ -29,7 +31,7 @@ class GoodsPagination(PageNumberPagination):
     
 ### 使用viewSet
 
-class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet(CacheResponseMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     # authentication_classes = (SessionAuthentication,)
     # authentication_classes = (JSONWebTokenAuthentication,)
     # permission_classes = (IsAuthenticated,)
@@ -52,7 +54,6 @@ class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewset
     # 自定义filterSet
     filter_backends = (filters.DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_class = GoodsFilter
-    
     # search
     # search框的输入会在所有的search_fields字段中查找,理解为并集
     # field可以使该model字段,也可以是related, manytomany字段
@@ -73,7 +74,15 @@ class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewset
     #
     #     return Goods.objects.filter(shop_price__gt=int(price_min))
     
-
+    # 商品点击数
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.click_num += 1
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+    
+    
 class CategroyListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     '''
     list:
@@ -109,3 +118,14 @@ class BannerListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = BannerSerializer
     queryset = Banner.objects
     
+
+# 热搜
+class HotSearchWordsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = HotSearchWordsSerializer
+    queryset = HotSearchWords.objects
+    
+
+# indexCatetory
+class IndexCategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = IndexCategorySerializer
+    queryset =GoodsCategory.objects.filter(is_tab=True)

@@ -19,7 +19,8 @@ import xadmin
 from django.views.static import serve
 from VueShopApi.settings import MEDIA_ROOT
 from goods.restful_view import GoodsListView, GoodsCategoryListView
-from goods.views import GoodsListViewSet, CategroyListViewSet, BannerListViewSet
+from goods.views import GoodsListViewSet, CategroyListViewSet, BannerListViewSet, HotSearchWordsViewSet
+from goods.views import IndexCategoryViewSet
 from rest_framework.routers import DefaultRouter
 # 自动生成drf文档,依赖coreapi
 from rest_framework.documentation import include_docs_urls
@@ -46,6 +47,7 @@ from user_operation.views import LeaveMessageViewSet
 # 交易
 from trade.views import ShopingCartViewSet, OrdersViewSet
 
+
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
 router.register('categorys', CategroyListViewSet, base_name='categorys')
@@ -57,6 +59,8 @@ router.register("address", AddressViewSet, base_name="address")
 router.register("messages", LeaveMessageViewSet, base_name="messages")
 router.register("shopcarts", ShopingCartViewSet, base_name="shopcarts")
 router.register("orders", OrdersViewSet, base_name="orders")
+router.register("hotsearchs", HotSearchWordsViewSet, base_name="hotsearchs")
+router.register("indexgoods", IndexCategoryViewSet, base_name="indexgoods")
 
 # 有了router不需要了
 # goods_list = GoodsListViewSet.as_view({
