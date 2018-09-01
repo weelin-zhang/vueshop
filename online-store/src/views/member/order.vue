@@ -89,7 +89,7 @@
                 alert('您确认要取消该订单吗？取消后此订单将视为无效订单');
                 delOrder(id).then((response)=> {
                   alert('订单删除成功')
-				  this.getOrder()
+                  this.getOrder()
                 }).catch(function (error) {
                     console.log(error);
                 });
