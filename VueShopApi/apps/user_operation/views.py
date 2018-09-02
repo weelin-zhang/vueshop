@@ -40,6 +40,9 @@ class UserFavViewSet(CreateModelMixin, RetrieveModelMixin, ListModelMixin, Destr
     
     # 理论上不需要IsOwnerOrReadOnly 因为get_queryset已经起到了过滤user的作用
     def get_queryset(self):
+        # 测试sentry
+        # a = {}
+        # print(a['b'])
         return UserFav.objects.filter(user=self.request.user)
     
     

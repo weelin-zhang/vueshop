@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Token认证
     'rest_framework.authtoken',
+    'raven.contrib.django.raven_compat',
 
 
 ]
@@ -221,3 +222,7 @@ REST_FRAMEWORK_EXTENSIONS = {
     'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 15
 }
 
+# 集成sentry配置
+RAVEN_CONFIG = {
+    'dsn': 'http://a8ce22bdb89c4989bdadc6fdf0a9dcc5@127.0.0.1:9000/2',
+}
